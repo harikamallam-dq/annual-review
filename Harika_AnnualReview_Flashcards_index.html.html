@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Harika Mallam — 2025–26 Annual Review</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #F0EBFF;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px 20px 40px;
+  }
+
+  /* ── Deque logo header ── */
+  #logo-header {
+    width: 100%;
+    max-width: 820px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0 24px;
+  }
+  #logo-header svg { display: block; }
+  #logo-tagline {
+    font-size: 12px;
+    color: #9b80c9;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-align: right;
+  }
+
+  /* ── Progress bar ── */
+  #progress-bar {
+    position: fixed; top: 0; left: 0; height: 4px;
+    background: linear-gradient(90deg, #7b2fbe, #f7941d);
+    transition: width 0.4s ease;
+    z-index: 100;
+  }
+
+  /* ── Card counter ── */
+  #counter {
+    position: fixed; top: 14px; right: 20px;
+    color: #7b2fbe; font-size: 13px; letter-spacing: 1px;
+    font-weight: 600;
+    z-index: 100;
+  }
+
+  /* ── Deck wrapper ── */
+  #deck {
+    width: 100%;
+    max-width: 820px;
+    perspective: 1200px;
+  }
+
+  /* ── Card ── */
+  .card {
+    display: none;
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 44px 52px;
+    min-height: 480px;
+    border: 1px solid #DDD5F5;
+    box-shadow: 0 12px 48px rgba(75,41,145,0.10), 0 2px 8px rgba(75,41,145,0.06);
+    animation: slideIn 0.35s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .card.active { display: flex; flex-direction: column; justify-content: space-between; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Accent stripe top-left */
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 5px; height: 100%;
+    background: var(--accent, #7b2fbe);
+    border-radius: 20px 0 0 20px;
+  }
+
+  /* Card type label */
+  .card-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent, #7b2fbe);
+    margin-bottom: 18px;
+  }
+
+  /* Headline */
+  .card-headline {
+    font-size: 28px; font-weight: 800;
+    color: #1a0a2e; line-height: 1.2;
+    margin-bottom: 22px;
+  }
+  .card-headline span { color: var(--accent, #7b2fbe); }
+
+  /* Body text */
+  .card-body {
+    font-size: 15px; color: #4a3570; line-height: 1.75;
+    flex: 1;
+  }
+
+  /* Stat grid */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 10px;
+  }
+  .stat-box {
+    background: #F5F0FF;
+    border: 1px solid #DDD5F5;
+    border-radius: 12px;
+    padding: 18px 14px;
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 32px; font-weight: 900;
+    color: var(--accent, #7b2fbe);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 11.5px; color: #6b4fa8;
+    margin-top: 6px; line-height: 1.4;
+  }
+
+  /* Bullet list */
+  .card-list {
+    list-style: none;
+    margin-top: 6px;
+  }
+  .card-list li {
+    display: flex; align-items: flex-start; gap: 12px;
+    color: #4a3570; font-size: 14.5px; line-height: 1.65;
+    padding: 8px 0;
+    border-bottom: 1px solid #EAE5F5;
+  }
+  .card-list li:last-child { border-bottom: none; }
+  .card-list li .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent, #7b2fbe);
+    flex-shrink: 0; margin-top: 7px;
+  }
+
+  /* Compact list for dense cards */
+  .card-list.compact li { padding: 6px 0; font-size: 13.5px; }
+
+  /* Quote block */
+  .quote-block {
+    background: #F5F0FF;
+    border-left: 4px solid var(--accent, #7b2fbe);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 20px;
+    margin: 12px 0;
+    color: #2d1a5e;
+    font-size: 14px;
+    line-height: 1.7;
+    font-style: italic;
+  }
+  .quote-attr {
+    font-size: 12px; color: #7b2fbe;
+    margin-top: 8px; font-style: normal; font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  /* Tag chips */
+  .chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .chip {
+    background: #F5F0FF;
+    border: 1px solid var(--accent, #7b2fbe);
+    color: var(--accent, #7b2fbe);
+    border-radius: 999px;
+    padding: 5px 13px;
+    font-size: 12px; font-weight: 600;
+  }
+
+  /* Trait pill grid — for the "who I am" card */
+  .trait-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .trait-pill {
+    display: flex; align-items: flex-start; gap: 10px;
+    background: #F5F0FF;
+    border: 1px solid #DDD5F5;
+    border-radius: 12px;
+    padding: 12px 14px;
+  }
+  .trait-icon { font-size: 18px; flex-shrink: 0; }
+  .trait-text strong { display: block; font-size: 13px; color: #1a0a2e; margin-bottom: 2px; }
+  .trait-text span { font-size: 12px; color: #6b4fa8; line-height: 1.4; }
+
+  /* Next year impact rows */
+  .impact-row {
+    display: flex; align-items: flex-start; gap: 16px;
+    padding: 11px 0;
+    border-bottom: 1px solid #EAE5F5;
+  }
+  .impact-row:last-child { border-bottom: none; }
+  .impact-icon {
+    font-size: 20px; flex-shrink: 0; width: 34px; text-align: center;
+    margin-top: 2px;
+  }
+  .impact-text strong {
+    display: block; color: #1a0a2e; font-size: 14.5px; margin-bottom: 2px;
+  }
+  .impact-text span { color: #6b4fa8; font-size: 13px; line-height: 1.5; }
+
+  /* Hike ask card */
+  .ask-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin-top: 8px;
+  }
+  .ask-box {
+    background: #F5F0FF;
+    border: 1px solid #DDD5F5;
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .ask-box .ask-title {
+    font-size: 10.5px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent, #7b2fbe);
+    margin-bottom: 6px;
+  }
+  .ask-box .ask-text {
+    color: #4a3570; font-size: 13.5px; line-height: 1.55;
+  }
+
+  /* Timeline strip for promotions */
+  .timeline {
+    display: flex; align-items: center; gap: 0;
+    margin: 20px 0;
+  }
+  .tl-node {
+    display: flex; flex-direction: column; align-items: center;
+    flex: 1;
+  }
+  .tl-dot {
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--accent, #7b2fbe);
+    border: 3px solid #FFFFFF;
+    box-shadow: 0 0 0 3px var(--accent, #7b2fbe);
+  }
+  .tl-line {
+    flex: 1; height: 2px;
+    background: linear-gradient(90deg, #7b2fbe, #DDD5F5);
+  }
+  .tl-label {
+    font-size: 11px; color: #6b4fa8; margin-top: 8px;
+    text-align: center; line-height: 1.4;
+  }
+  .tl-title {
+    font-size: 12.5px; font-weight: 700; color: #1a0a2e;
+    text-align: center; margin-top: 3px;
+  }
+
+  /* Responsibility two-col list */
+  .resp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .resp-item {
+    display: flex; align-items: flex-start; gap: 9px;
+    background: #F5F0FF;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: #4a3570;
+    line-height: 1.5;
+  }
+  .resp-item .r-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent, #7b2fbe);
+    flex-shrink: 0; margin-top: 5px;
+  }
+
+  /* Navigation */
+  #nav {
+    display: flex; align-items: center; gap: 16px;
+    margin-top: 32px;
+  }
+  .nav-btn {
+    background: #FFFFFF;
+    border: 1px solid #C5B0EE;
+    color: #4B2991;
+    border-radius: 10px;
+    padding: 12px 28px;
+    font-size: 14px; font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .nav-btn:hover { background: #F0EBFF; color: #1a0a2e; border-color: #7b2fbe; }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; }
+  #dots { display: flex; gap: 7px; flex: 1; justify-content: center; flex-wrap: wrap; }
+  .dot-btn {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #7b5db5; border: none; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .dot-btn.active { background: #7b2fbe; transform: scale(1.4); }
+
+  /* Keyboard hint */
+  #hint { color: #5a3d8c; font-size: 12px; margin-top: 12px; }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<div id="counter"></div>
+
+<!-- Deque Logo Header -->
+<div id="logo-header">
+  <img src="https://www.deque.com/wp-content/uploads/2025/12/NEW-Deque-logos_Horizontal_Color_Dark_Logo.svg" alt="Deque logo" style="height:38px; display:block;"/>
+  <div id="logo-tagline" style="color:#4a3570;">2025–26 Annual Review<br/>Harika Mallam</div>
+</div>
+
+<div id="deck">
+
+  <!-- CARD 1: COVER -->
+  <div class="card active" style="--accent:#7b2fbe">
+    <div>
+      <div class="card-label">2025–26 Annual Review</div>
+      <div class="card-headline">Harika Mallam<br/><span>A full year of showing up.</span></div>
+      <div class="card-body">
+        Two promotions. An internationally recognised certification. A team to lead and learn from. Bugs caught before they became problems. Every commitment met.<br/><br/>
+        This deck is a honest look at the year — what was delivered, what was learned, and where things are headed.
+      </div>
+    </div>
+    <div class="chip-row">
+      <div class="chip">Team Lead AC</div>
+      <div class="chip">IAAP WAS Certified</div>
+      <div class="chip">30+ Clients</div>
+      <div class="chip">2× Promoted</div>
+      <div class="chip">100+ VPATs</div>
+      <div class="chip">3+ Years at Deque</div>
+    </div>
+  </div>
+
+  <!-- CARD 2: THE NUMBERS -->
+  <div class="card" style="--accent:#f7941d">
+    <div>
+      <div class="card-label">The Year in Numbers</div>
+      <div class="card-headline">The <span>results</span> speak for themselves.</div>
+    </div>
+    <div class="stat-grid">
+      <div class="stat-box">
+        <div class="stat-num">2</div>
+        <div class="stat-label">Promotions in<br/>one financial year</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">30+</div>
+        <div class="stat-label">Clients delivered<br/>across the year</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">100+</div>
+        <div class="stat-label">VPATs aligned to<br/>international standards</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">1K+</div>
+        <div class="stat-label">Accessibility reports<br/>generated</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">6</div>
+        <div class="stat-label">Adobe engagements<br/>delivered</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Years at<br/>Deque India</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 3: PROMOTIONS -->
+  <div class="card" style="--accent:#9b59b6">
+    <div>
+      <div class="card-label">Career Growth</div>
+      <div class="card-headline">Two promotions.<br/><span>One financial year.</span></div>
+    </div>
+    <div class="timeline">
+      <div class="tl-node">
+        <div class="tl-dot"></div>
+        <div class="tl-label">Apr 2025</div>
+        <div class="tl-title">Associate AC</div>
+      </div>
+      <div class="tl-line"></div>
+      <div class="tl-node">
+        <div class="tl-dot"></div>
+        <div class="tl-label">Jul 2025</div>
+        <div class="tl-title">Accessibility<br/>Consultant</div>
+      </div>
+      <div class="tl-line"></div>
+      <div class="tl-node">
+        <div class="tl-dot"></div>
+        <div class="tl-label">Apr 2026</div>
+        <div class="tl-title">Team Lead AC</div>
+      </div>
+    </div>
+    <div class="card-body">
+      Three roles in twelve months. Each one came before I asked for it, which meant I was already doing the work before the title changed. That's how I'd like to keep growing — by making the next step feel like a natural consequence of the current one.
+    </div>
+  </div>
+
+  <!-- CARD 4: WAS CERTIFICATION -->
+  <div class="card" style="--accent:#f7941d">
+    <div>
+      <div class="card-label">Certification — IAAP</div>
+      <div class="card-headline">IAAP <span>WAS</span> Certified.<br/>April 2026.</div>
+      <div class="card-body">
+        The WAS certification is one of the harder ones to clear — it covers WCAG, AT testing, and accessibility standards at a level that requires real depth, not just familiarity.<br/><br/>
+        I studied for it while working full time and stepping into the Lead role. There was no quiet window — it happened in the gaps. Passing it meant a lot for that reason.<br/><br/>
+        It adds weight to every audit and VPAT conversation, both internally and with clients.
+      </div>
+    </div>
+    <div class="chip-row">
+      <div class="chip">WCAG 2.0 / 2.1 / 2.2</div>
+      <div class="chip">AT Testing Depth</div>
+      <div class="chip">Internationally Recognised</div>
+      <div class="chip">Validates Client Trust</div>
+    </div>
+  </div>
+
+  <!-- CARD 5: STANDOUT DELIVERY -->
+  <div class="card" style="--accent:#7b2fbe">
+    <div>
+      <div class="card-label">Standout Delivery</div>
+      <div class="card-headline">Adobe ALM Android — <span>owned it end-to-end.</span></div>
+      <div class="card-body">
+        On the Adobe ALM iOS &amp; Android audit, I independently handled the entire Android platform — setup, test runs, issue triage, and final delivery. The EM didn't need to check in on my end; it just got done.<br/><br/>
+        That engagement was one of the clearer signals to me that I was ready for more responsibility. Not because someone told me, but because I could feel how naturally the ownership came.
+      </div>
+    </div>
+    <div class="quote-block">
+      "Recognised by the Engagement Manager for ownership and reliability across the Android platform — well before the Lead title was formalised."
+      <div class="quote-attr">— Adobe ALM iOS &amp; Android Audit</div>
+    </div>
+  </div>
+
+  <!-- CARD 6: TOOL QUALITY -->
+  <div class="card" style="--accent:#c0392b">
+    <div>
+      <div class="card-label">Quality Impact — Beyond My Own Work</div>
+      <div class="card-headline">Found bugs that affected<br/><span>the entire team's output.</span></div>
+    </div>
+    <ul class="card-list">
+      <li>
+        <div class="dot"></div>
+        <div><strong style="color:#1a0a2e">VPAT Generator inconsistency</strong> — Spotted a mismatch between the toolkit output and what the Section 508 / EN standard actually requires. Raised it with VP Aparna Pasi directly. The fix went out team-wide, so every VPAT since has been cleaner for it.</div>
+      </li>
+      <li>
+        <div class="dot"></div>
+        <div><strong style="color:#1a0a2e">axe Auditor IGT ruleId mapping bug</strong> — Noticed that issue descriptions were landing in the wrong VPAT fields. Reported it to Nanda Kishore with enough detail to reproduce and fix it. Small thing, but it was affecting everyone's output.</div>
+      </li>
+      <li>
+        <div class="dot"></div>
+        <div><strong style="color:#1a0a2e">Comreg/eir iOS environment instability</strong> — Caught an environment issue before delivery and flagged it early enough to sort it out. Nothing reached the client that shouldn't have.</div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- CARD 7: MANAGER RATING -->
+  <div class="card" style="--accent:#f7941d">
+    <div>
+      <div class="card-label">Performance Assessment</div>
+      <div class="card-headline">Manager rated: <span>exceptional</span><br/>across every competency.</div>
+    </div>
+    <div class="quote-block">
+      "Harika has demonstrated exceptional performance across all competencies, earning two promotions within a single year. Now serving in a lead role, she is proactively mentoring her team to adopt and align with 'The DQ Way' standards."
+      <div class="quote-attr">— Manager, Annual Review 2025–26</div>
+    </div>
+    <ul class="card-list compact">
+      <li><div class="dot"></div><div>Exceptional team player — built a supportive, inclusive environment others want to be part of.</div></li>
+      <li><div class="dot"></div><div>Always approachable and willing to assist — nobody on her team feels like their question is a burden.</div></li>
+      <li><div class="dot"></div><div>360° peer feedback: <em>"Quickly grasps core issues and delivers apt solutions. Empowers her team to take ownership while maintaining high process standards."</em></div></li>
+      <li><div class="dot"></div><div>Recognised as a <strong style="color:#1a0a2e">Core Value Ambassador</strong> — not just aligning with the Deque Way, but actively modelling it for the team.</div></li>
+    </ul>
+  </div>
+
+  <!-- CARD 8: WHO SHE IS -->
+  <div class="card" style="--accent:#7b2fbe">
+    <div>
+      <div class="card-label">The Complete Picture</div>
+      <div class="card-headline">Skills and delivery are half the story.<br/><span>Character is the other half.</span></div>
+    </div>
+    <div class="trait-grid">
+      <div class="trait-pill">
+        <div class="trait-text"><strong>Humble — and means it</strong><span>Owns mistakes, gives credit, stays open to being wrong. Recognised by the team in Q3 for the "We Practice Humility" core value.</span></div>
+      </div>
+      <div class="trait-pill">
+        <div class="trait-text"><strong>Open, direct, respectful</strong><span>Says what needs to be said without making it uncomfortable. Easy to give feedback to as well as receive it from.</span></div>
+      </div>
+      <div class="trait-pill">
+        <div class="trait-text"><strong>Does what she says she will</strong><span>No missed commitments this year. When something is said to be done, it is done — and done properly.</span></div>
+      </div>
+      <div class="trait-pill">
+        <div class="trait-text"><strong>Calm when things shift</strong><span>Doesn't wait to be told how to handle a change in scope. Finds a way and keeps the team moving.</span></div>
+      </div>
+      <div class="trait-pill">
+        <div class="trait-text"><strong>Takes ownership seriously</strong><span>Doesn't pass the problem on. If it's in her remit, she sees it through and reports back clearly.</span></div>
+      </div>
+      <div class="trait-pill">
+        <div class="trait-text"><strong>Knows the Deque tools well</strong><span>axe Auditor, VPAT toolkit, test run setup — knows what to reach for and how to use it properly.</span></div>
+      </div>
+      <div class="trait-pill">
+        <div class="trait-text"><strong>Looks for smarter ways to work</strong><span>Spots what can be templated or reused — not to cut corners, but to free the team up for the work that actually needs thinking.</span></div>
+      </div>
+      <div class="trait-pill">
+        <div class="trait-text"><strong>The Deque Way isn't a poster</strong><span>We care deeply. We deliver. We are humble. These aren't things she references in reviews — they're just how she works.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 9: MY OFFER AS TEAM LEAD -->
+  <div class="card" style="--accent:#4B2991">
+    <div>
+      <div class="card-label">My Offer as Team Lead</div>
+      <div class="card-headline">What I plan to bring —<br/>and <span>deliver</span> — every single day.</div>
+    </div>
+    <div class="resp-grid" style="gap:6px; margin-top:6px;">
+      <div class="resp-item" style="padding:8px 11px; font-size:12.5px;"><div class="r-dot"></div><div><strong style="color:#1a0a2e">Mentoring &amp; 1:1s</strong> — Individual growth plans, skill-sharing, structured coaching for every team member.</div></div>
+      <div class="resp-item" style="padding:8px 11px; font-size:12.5px;"><div class="r-dot"></div><div><strong style="color:#1a0a2e">Project planning</strong> — Task assignment, timelines, progress tracking, deadline ownership across concurrent engagements.</div></div>
+      <div class="resp-item" style="padding:8px 11px; font-size:12.5px;"><div class="r-dot"></div><div><strong style="color:#1a0a2e">QA ownership</strong> — Reviewing every deliverable before it goes to the client. Catching issues — false positives, missed criteria — before they become someone else's problem.</div></div>
+      <div class="resp-item" style="padding:8px 11px; font-size:12.5px;"><div class="r-dot"></div><div><strong style="color:#1a0a2e">Client communication</strong> — Keeping clients updated, handling queries, and managing anything that needs escalating — calmly and professionally.</div></div>
+      <div class="resp-item" style="padding:8px 11px; font-size:12.5px;"><div class="r-dot"></div><div><strong style="color:#1a0a2e">Keeping leadership in the loop</strong> — Flagging risks early, sharing what's happening on the ground, and not waiting until something is already a problem.</div></div>
+      <div class="resp-item" style="padding:8px 11px; font-size:12.5px;"><div class="r-dot"></div><div><strong style="color:#1a0a2e">Workload distribution</strong> — Making sure the right people are on the right work, keeping an eye on who has capacity and who needs support.</div></div>
+      <div class="resp-item" style="padding:8px 11px; font-size:12.5px;"><div class="r-dot"></div><div><strong style="color:#1a0a2e">Audits &amp; VPATs</strong> — Still doing the work, not just overseeing it. Reviewing for Section 508 and EN 301 549 compliance and making sure nothing slips through.</div></div>
+      <div class="resp-item" style="padding:8px 11px; font-size:12.5px;"><div class="r-dot"></div><div><strong style="color:#1a0a2e">Building shared resources</strong> — Writing things down so the team doesn't have to rely on one person knowing something. Checklists, notes, process docs that actually get used.</div></div>
+      <div class="resp-item" style="padding:8px 11px; font-size:12.5px;"><div class="r-dot"></div><div><strong style="color:#1a0a2e">Noticing patterns</strong> — When the same issue keeps coming up across different projects, saying so — and thinking about how to prevent it rather than just fixing it each time.</div></div>
+      <div class="resp-item" style="padding:8px 11px; font-size:12.5px;"><div class="r-dot"></div><div><strong style="color:#1a0a2e">Connecting the dots</strong> — Being the link between what the team is experiencing day to day and what leadership needs to make decisions. Not waiting to be asked.</div></div>
+    </div>
+    <div style="margin-top:10px; padding:10px 14px; background:#F5F0FF; border-left:3px solid #4B2991; border-radius:0 8px 8px 0;">
+      <span style="font-size:12px; color:#4a3570; font-style:italic;">If all of this sounds like just doing my job — that's exactly the point. I'm not trying to do everything at once. One thing, done fully, with maximum impact. That's my approach to this role right now.</span>
+    </div>
+  </div>
+
+  <!-- CARD 10: NEXT YEAR IMPACT -->
+  <div class="card" style="--accent:#9b59b6">
+    <div>
+      <div class="card-label">Next Year — The Plan</div>
+      <div class="card-headline">Here's how she <span>creates even more value</span><br/>in FY 26–27.</div>
+    </div>
+    <div style="margin-top: 6px;">
+      <div class="impact-row">
+        <div class="impact-text">
+          <strong>IAAP CPACC Certification</strong>
+          <span>Working toward the next credential — broadening expertise into cognitive and physical accessibility, which strengthens consulting depth across a wider range of client contexts.</span>
+        </div>
+      </div>
+      <div class="impact-row">
+        <div class="impact-text">
+          <strong>Build out QA and onboarding systems</strong>
+          <span>The foundations are there informally — the goal is to make them repeatable and documented, so the team can grow without losing the quality bar we've set.</span>
+        </div>
+      </div>
+      <div class="impact-row">
+        <div class="impact-text">
+          <strong>Bring more automation into team workflows</strong>
+          <span>Audit and VPAT work involves a lot of repeatable steps — looking for ways to template and speed those up so the team spends more time on the judgment calls that actually matter.</span>
+        </div>
+      </div>
+      <div class="impact-row">
+        <div class="impact-text">
+          <strong>Go deeper on VPAT tooling and methodology</strong>
+          <span>Moving beyond identifying gaps to actively contributing — working with engineering on axe Auditor edge cases and accuracy improvements that affect the whole team's output.</span>
+        </div>
+      </div>
+      <div class="impact-row">
+        <div class="impact-text">
+          <strong>More intentional mentoring for junior ACs</strong>
+          <span>Rather than helping reactively when things come up, building something more consistent — regular check-ins, clear skill goals, and actual visibility into where each person is growing.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 11: GRATITUDE -->
+  <div class="card" style="--accent:#7b2fbe">
+    <div>
+      <div class="card-label">With Gratitude</div>
+      <div class="card-headline">Thank you —<br/>this year <span>didn't happen alone.</span></div>
+    </div>
+    <div style="margin-top:14px; flex:1; display:flex; align-items:flex-start;">
+      <div style="font-size:14px; color:#4a3570; line-height:1.8; max-width:680px;">
+        I'm genuinely grateful to be at Deque — and I don't say that lightly. Working somewhere that actually cares about the impact of what we do makes a real difference in how you show up every day.<br/><br/>
+        To my manager and leadership — thank you for trusting me with more than I expected, for creating room to grow, and for the kind of support that makes you want to push harder. That belief in people is something I've felt here in a way I haven't everywhere, and it means a lot.<br/><br/>
+        I'm excited about where this is headed. There's a lot more I want to contribute, and I can't wait to keep building here.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Navigation -->
+<div id="nav">
+  <button class="nav-btn" id="prev" onclick="move(-1)" disabled>← Prev</button>
+  <div id="dots"></div>
+  <button class="nav-btn" id="next" onclick="move(1)">Next →</button>
+</div>
+<div id="hint">Use ← → arrow keys or click to navigate</div>
+
+<script>
+  const cards = document.querySelectorAll('.card');
+  const total  = cards.length;
+  let cur = 0;
+
+  // Build dots
+  const dotsEl = document.getElementById('dots');
+  cards.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'dot-btn' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  });
+
+  function goTo(n) {
+    cards[cur].classList.remove('active');
+    dotsEl.children[cur].classList.remove('active');
+    cur = Math.max(0, Math.min(n, total - 1));
+    cards[cur].classList.add('active');
+    dotsEl.children[cur].classList.add('active');
+    document.getElementById('prev').disabled = cur === 0;
+    document.getElementById('next').disabled = cur === total - 1;
+    document.getElementById('progress-bar').style.width = ((cur + 1) / total * 100) + '%';
+    document.getElementById('counter').textContent = (cur + 1) + ' / ' + total;
+  }
+
+  function move(dir) { goTo(cur + dir); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') move(1);
+    if (e.key === 'ArrowLeft')  move(-1);
+  });
+
+  goTo(0);
+</script>
+</body>
+</html>
